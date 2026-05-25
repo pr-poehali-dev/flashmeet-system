@@ -1,5 +1,4 @@
 import Icon from "@/components/ui/icon";
-import { hexToRgb } from "./types";
 
 export default function ContactsPage({ onBack }: { onBack: () => void }) {
   return (
@@ -22,76 +21,117 @@ export default function ContactsPage({ onBack }: { onBack: () => void }) {
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {[
-            {
-              icon: "Send",
-              label: "Telegram-бот",
-              value: "@FlashMeet_bot",
-              href: "https://t.me/FlashMeet_bot",
-              color: "var(--neon)",
-            },
-            {
-              icon: "Mail",
-              label: "Email поддержки",
-              value: "support@flashmeet.app",
-              href: "mailto:support@flashmeet.app",
-              color: "#6b9fff",
-            },
-            {
-              icon: "Building2",
-              label: "B2B-партнёрство",
-              value: "b2b@flashmeet.app",
-              href: "mailto:b2b@flashmeet.app",
-              color: "#b06bff",
-            },
-            {
-              icon: "Shield",
-              label: "Безопасность / SOS",
-              value: "safety@flashmeet.app",
-              href: "mailto:safety@flashmeet.app",
-              color: "var(--sos)",
-            },
-          ].map((c) => (
-            <a
-              key={c.label}
-              href={c.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="glow-card rounded-sm p-6 flex items-start gap-4 group no-underline"
-            >
-              <div
-                className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0 mt-0.5"
-                style={{ background: `rgba(${hexToRgb(c.color)}, 0.12)` }}
-              >
-                <Icon name={c.icon} size={18} style={{ color: c.color }} />
-              </div>
-              <div>
-                <p className="text-[10px] font-mono text-[#2e4a58] tracking-widest uppercase mb-1">
-                  {c.label}
-                </p>
-                <p
-                  className="text-sm font-medium group-hover:underline"
-                  style={{ color: c.color }}
-                >
-                  {c.value}
-                </p>
-              </div>
-            </a>
-          ))}
+        {/* Telegram */}
+        <div className="mb-4">
+          <p className="font-mono text-[10px] text-[#2e4a58] tracking-widest uppercase mb-3">
+            01 · Официальный Telegram-бот
+          </p>
+          <a
+            href="https://t.me/FlashMeet_bot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glow-card rounded-sm p-6 flex items-start gap-4 group no-underline"
+          >
+            <div className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0 mt-0.5 bg-[rgba(0,229,192,0.12)]">
+              <Icon name="Send" size={18} style={{ color: "var(--neon)" }} />
+            </div>
+            <div>
+              <p className="text-[10px] font-mono text-[#2e4a58] tracking-widest uppercase mb-1">
+                Главный бот сервиса
+              </p>
+              <p className="text-sm font-medium text-[var(--neon)] group-hover:underline">
+                @FlashMeet_bot
+              </p>
+              <p className="text-xs text-[#3a5060] mt-1 leading-relaxed">
+                По вопросам работы интерфейса, активации ролей или предложений — пишите напрямую в поддержку внутри бота.
+              </p>
+            </div>
+          </a>
         </div>
 
-        <div className="mt-10 glow-card rounded-sm p-6">
-          <p className="font-mono text-[10px] text-[var(--neon)] tracking-widest mb-2 uppercase">
-            Юридическое лицо
+        {/* Email */}
+        <div className="mb-4">
+          <p className="font-mono text-[10px] text-[#2e4a58] tracking-widest uppercase mb-3">
+            02 · Единая служба поддержки и юридических запросов
           </p>
-          <p className="text-[#5a7080] text-sm leading-relaxed">
-            ООО «ФлэшМит» · ОГРН 0000000000000 · ИНН 000000000000
-            <br />
-            Юридический адрес: г. Москва, ул. Примерная, д. 1, офис 101
-            <br />
-            Режим работы поддержки: пн–пт 10:00–19:00 МСК
+          <a
+            href="mailto:bgs1990st@mail.ru"
+            className="glow-card rounded-sm p-6 flex items-start gap-4 group no-underline"
+          >
+            <div className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0 mt-0.5 bg-[rgba(107,159,255,0.12)]">
+              <Icon name="Mail" size={18} style={{ color: "#6b9fff" }} />
+            </div>
+            <div>
+              <p className="text-[10px] font-mono text-[#2e4a58] tracking-widest uppercase mb-1">
+                Единый e-mail
+              </p>
+              <p className="text-sm font-medium text-[#6b9fff] group-hover:underline">
+                bgs1990st@mail.ru
+              </p>
+              <p className="text-xs text-[#3a5060] mt-1 leading-relaxed">
+                Техническая поддержка · B2B-партнёрство · Конфиденциальность и безопасность данных
+              </p>
+            </div>
+          </a>
+        </div>
+
+        {/* Реквизиты */}
+        <div className="mb-4">
+          <p className="font-mono text-[10px] text-[#2e4a58] tracking-widest uppercase mb-3">
+            03 · Сведения об Исполнителе
           </p>
+          <div className="glow-card rounded-sm p-6">
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0 mt-0.5 bg-[rgba(176,107,255,0.12)]">
+                <Icon name="FileText" size={18} style={{ color: "#b06bff" }} />
+              </div>
+              <div className="space-y-1.5">
+                <p className="text-sm text-white font-medium">
+                  Беломестнов Геннадий Сергеевич
+                </p>
+                <p className="text-xs text-[#5a7080]">Индивидуальный предприниматель</p>
+                <div className="pt-1 space-y-1">
+                  <p className="text-xs text-[#3a5060] font-mono">
+                    ИНН: <span className="text-[#90a8b8]">751601068341</span>
+                  </p>
+                  <p className="text-xs text-[#3a5060] font-mono">
+                    ОГРНИП: <span className="text-[#90a8b8]">323750000005231</span>
+                  </p>
+                  <p className="text-xs text-[#3a5060] font-mono">
+                    Сайт:{" "}
+                    <a
+                      href="https://flashmeet.poehali.dev"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[var(--neon)] hover:underline"
+                    >
+                      flashmeet.poehali.dev
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Режим работы */}
+        <div>
+          <p className="font-mono text-[10px] text-[#2e4a58] tracking-widest uppercase mb-3">
+            04 · Режим работы поддержки
+          </p>
+          <div className="glow-card rounded-sm p-6 flex items-start gap-4">
+            <div className="w-10 h-10 rounded-sm flex items-center justify-center shrink-0 mt-0.5 bg-[rgba(255,216,107,0.1)]">
+              <Icon name="Clock" size={18} style={{ color: "#ffd86b" }} />
+            </div>
+            <div>
+              <p className="text-sm text-white font-medium mb-1">
+                Пн – Пт: 10:00 – 19:00 МСК
+              </p>
+              <p className="text-xs text-[#3a5060] leading-relaxed">
+                Запросы, поступившие в выходные дни, обрабатываются в приоритетном порядке в понедельник утром.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
