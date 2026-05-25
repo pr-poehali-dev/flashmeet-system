@@ -120,9 +120,8 @@ export default function AdminPage({ onBack }: { onBack: () => void }) {
                 <span className="font-mono text-xs text-[#2e4a58] tracking-widest uppercase">
                   {suspects.length} записей
                 </span>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => setShowAll((v) => !v)}>
                   <div
-                    onClick={() => setShowAll((v) => !v)}
                     className={`w-8 h-4 rounded-full transition-colors relative ${showAll ? "bg-[var(--neon)]" : "bg-[#1e2d3a]"}`}
                   >
                     <span
@@ -130,7 +129,7 @@ export default function AdminPage({ onBack }: { onBack: () => void }) {
                     />
                   </div>
                   <span className="text-xs text-[#5a7080]">Показать отрецензированные</span>
-                </label>
+                </div>
               </div>
               <button
                 onClick={() => fetchSuspects(token, showAll)}
