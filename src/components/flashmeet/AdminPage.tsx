@@ -173,10 +173,15 @@ export default function AdminPage({ onBack }: { onBack: () => void }) {
                           ))}
                         </div>
                         <div className="flex flex-wrap gap-4 text-xs text-[#2e4a58] font-mono">
-                          <span>
-                            <Icon name="MapPin" size={11} className="inline mr-1" />
+                          <a
+                            href={`https://www.google.com/maps?q=${s.lat},${s.lon}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 hover:text-[var(--neon)] transition-colors"
+                          >
+                            <Icon name="MapPin" size={11} className="inline" />
                             {s.lat.toFixed(5)}, {s.lon.toFixed(5)}
-                          </span>
+                          </a>
                           <span>
                             <Icon name="Clock" size={11} className="inline mr-1" />
                             {new Date(s.detected_at).toLocaleString("ru-RU")}

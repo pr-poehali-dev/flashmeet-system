@@ -3,7 +3,7 @@ import { type Page, NAV_LINKS } from "./types";
 
 const MEET_TAGS = [
   { emoji: "🍖", label: "Мангал" },
-  { emoji: "🍷", label: "Французское вино" },
+  { emoji: "🍷", label: "По бокальчику" },
   { emoji: "🏍️", label: "Мотоциклы" },
   { emoji: "🎲", label: "Настолки" },
   { emoji: "☕", label: "Кофе" },
