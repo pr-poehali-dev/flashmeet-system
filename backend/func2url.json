@@ -1,3 +1,6 @@
 {
+  "payments": "https://functions.poehali.dev/d455f4b9-f3f7-410e-ae1f-57dd09eeabf8",
+  "admin-suspects": "https://functions.poehali.dev/8d86c704-83db-42f8-979c-f7a4ff5d2aee",
+  "i18n": "https://functions.poehali.dev/00ff6415-241f-40ae-a3f9-aef9d7a44b0f",
   "security-filters": "https://functions.poehali.dev/92479fa1-ccb6-4155-ba32-e8fecaa9953d"
 }

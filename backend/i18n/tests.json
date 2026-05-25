@@ -1,0 +1,29 @@
+{
+  "tests": [
+    {
+      "name": "GET строки на русском",
+      "method": "GET",
+      "path": "/?lang=ru",
+      "expectedStatus": 200
+    },
+    {
+      "name": "GET строки на английском",
+      "method": "GET",
+      "path": "/?lang=en",
+      "expectedStatus": 200
+    },
+    {
+      "name": "POST сохранить язык en для пользователя",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"user_id\": 9001, \"lang\": \"en\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "GET язык пользователя по user_id",
+      "method": "GET",
+      "path": "/?user_id=9001",
+      "expectedStatus": 200
+    }
+  ]
+}

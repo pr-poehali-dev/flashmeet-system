@@ -1,0 +1,25 @@
+{
+  "tests": [
+    {
+      "name": "EN пользователь — Telegram Stars",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"user_id\": 2001, \"lang\": \"en\", \"plan\": \"business_monthly\", \"order_id\": \"ord_test_001\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Неизвестный план — ошибка 400",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"user_id\": 2002, \"lang\": \"ru\", \"plan\": \"nonexistent\", \"order_id\": \"ord_test_002\"}",
+      "expectedStatus": 400
+    },
+    {
+      "name": "Нет user_id — ошибка 400",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"lang\": \"en\", \"plan\": \"business_monthly\"}",
+      "expectedStatus": 400
+    }
+  ]
+}

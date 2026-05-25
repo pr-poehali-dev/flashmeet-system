@@ -1,4 +1,4 @@
-export type Page = "home" | "offer" | "privacy" | "b2b" | "contacts";
+export type Page = "home" | "offer" | "privacy" | "b2b" | "contacts" | "admin";
 
 export const NAV_LINKS: { id: Page; label: string }[] = [
   { id: "offer", label: "Публичная оферта" },

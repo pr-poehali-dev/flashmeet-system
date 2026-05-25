@@ -1,6 +1,16 @@
 import Icon from "@/components/ui/icon";
 import { type Page, NAV_LINKS } from "./types";
 
+const MEET_TAGS = [
+  { emoji: "🍖", label: "Мангал" },
+  { emoji: "🍷", label: "Французское вино" },
+  { emoji: "🏍️", label: "Мотоциклы" },
+  { emoji: "🎲", label: "Настолки" },
+  { emoji: "☕", label: "Кофе" },
+  { emoji: "🚶‍♂️", label: "Прогулка" },
+  { emoji: "🎒", label: "Экскурсия" },
+];
+
 export default function HomePage({ onDoc }: { onDoc: (id: Page) => void }) {
   return (
     <main className="grid-bg min-h-screen pt-14 relative overflow-hidden">
@@ -25,16 +35,12 @@ export default function HomePage({ onDoc }: { onDoc: (id: Page) => void }) {
         </h1>
 
         {/* Subline */}
-        <p className="animate-fade-in-up delay-200 text-[#5a7080] text-base md:text-lg max-w-xl leading-relaxed mb-3">
+        <p className="animate-fade-in-up delay-200 text-[#5a7080] text-base md:text-lg max-w-xl leading-relaxed mb-10">
           Быстрые встречи, без нудной переписки — здесь и сейчас.
         </p>
 
-        <p className="animate-fade-in-up delay-300 font-mono text-xs text-[#2e4a58] tracking-widest mb-10">
-          ANTI-OPG · LIVE LOCATION · SOS BROADCAST · CRM FOR BUSINESS
-        </p>
-
         {/* CTA */}
-        <div className="animate-fade-in-up delay-400 flex flex-col sm:flex-row gap-4 items-center">
+        <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-4 items-center mb-16">
           <a
             href="https://t.me/FlashMeet_bot"
             target="_blank"
@@ -54,19 +60,25 @@ export default function HomePage({ onDoc }: { onDoc: (id: Page) => void }) {
           </button>
         </div>
 
-        {/* Stats strip */}
-        <div className="animate-fade-in-up delay-500 mt-20 flex flex-wrap justify-center gap-8 md:gap-16">
-          {[
-            { val: "3 ч", label: "GPS-сессия" },
-            { val: "5 км", label: "Радиус SOS" },
-            { val: "30 сек", label: "Реакция охраны" },
-            { val: "0 данных", label: "Посторонним" },
-          ].map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="font-oswald text-2xl md:text-3xl font-semibold neon-text">{s.val}</div>
-              <div className="font-mono text-[10px] text-[#2e4a58] tracking-widest mt-1 uppercase">{s.label}</div>
-            </div>
-          ))}
+        {/* Meet Tags */}
+        <div className="animate-fade-in-up delay-400 w-full max-w-2xl">
+          <p className="font-mono text-[10px] text-[#2e4a58] tracking-widest uppercase mb-5">
+            Популярные форматы встреч
+          </p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {MEET_TAGS.map((tag, i) => (
+              <div
+                key={tag.label}
+                className="group flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(0,229,192,0.12)] bg-[var(--surface-2)] hover:border-[rgba(0,229,192,0.35)] hover:bg-[var(--neon-dim)] transition-all cursor-default"
+                style={{ animationDelay: `${0.4 + i * 0.06}s` }}
+              >
+                <span className="text-base leading-none">{tag.emoji}</span>
+                <span className="font-plex text-xs text-[#5a7080] group-hover:text-[var(--neon)] transition-colors tracking-wide">
+                  {tag.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

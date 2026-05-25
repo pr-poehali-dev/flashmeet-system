@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Icon from "@/components/ui/icon";
 import { type Page, NAV_LINKS } from "@/components/flashmeet/types";
 import HomePage from "@/components/flashmeet/HomePage";
 import { DocPage, OFFER_CONTENT, PRIVACY_CONTENT, B2B_CONTENT } from "@/components/flashmeet/DocPage";
 import ContactsPage from "@/components/flashmeet/ContactsPage";
+import AdminPage from "@/components/flashmeet/AdminPage";
 
 export default function Index() {
   const [page, setPage] = useState<Page>("home");
+
+  // Скрытый переход: ?page=admin в URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("page") === "admin") {
+      setPage("admin");
+    }
+  }, []);
 
   return (
     <div className="noise min-h-screen bg-[var(--surface)] font-plex">
@@ -52,11 +61,12 @@ export default function Index() {
       </nav>
 
       {/* Pages */}
-      {page === "home" && <HomePage onDoc={(id) => setPage(id)} />}
-      {page === "offer" && <DocPage title="Публичная оферта" content={OFFER_CONTENT} onBack={() => setPage("home")} />}
-      {page === "privacy" && <DocPage title="Политика конфиденциальности" content={PRIVACY_CONTENT} onBack={() => setPage("home")} />}
-      {page === "b2b" && <DocPage title="B2B-оферта" content={B2B_CONTENT} onBack={() => setPage("home")} />}
+      {page === "home"     && <HomePage onDoc={(id) => setPage(id)} />}
+      {page === "offer"    && <DocPage title="Публичная оферта" content={OFFER_CONTENT} onBack={() => setPage("home")} />}
+      {page === "privacy"  && <DocPage title="Политика конфиденциальности" content={PRIVACY_CONTENT} onBack={() => setPage("home")} />}
+      {page === "b2b"      && <DocPage title="B2B-оферта" content={B2B_CONTENT} onBack={() => setPage("home")} />}
       {page === "contacts" && <ContactsPage onBack={() => setPage("home")} />}
+      {page === "admin"    && <AdminPage onBack={() => setPage("home")} />}
     </div>
   );
 }
