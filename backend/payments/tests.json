@@ -1,24 +1,38 @@
 {
   "tests": [
     {
-      "name": "EN пользователь — Telegram Stars",
+      "name": "EN — organizer_day (Telegram Stars)",
       "method": "POST",
       "path": "/",
-      "body": "{\"user_id\": 2001, \"lang\": \"en\", \"plan\": \"business_monthly\", \"order_id\": \"ord_test_001\"}",
+      "body": "{\"user_id\": 2001, \"lang\": \"en\", \"plan\": \"organizer_day\", \"order_id\": \"ord_test_001\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "EN — organizer_week (Telegram Stars)",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"user_id\": 2002, \"lang\": \"en\", \"plan\": \"organizer_week\", \"order_id\": \"ord_test_002\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "EN — organizer_month (Telegram Stars)",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"user_id\": 2003, \"lang\": \"en\", \"plan\": \"organizer_month\", \"order_id\": \"ord_test_003\"}",
       "expectedStatus": 200
     },
     {
       "name": "Неизвестный план — ошибка 400",
       "method": "POST",
       "path": "/",
-      "body": "{\"user_id\": 2002, \"lang\": \"ru\", \"plan\": \"nonexistent\", \"order_id\": \"ord_test_002\"}",
+      "body": "{\"user_id\": 2004, \"lang\": \"ru\", \"plan\": \"nonexistent\", \"order_id\": \"ord_test_004\"}",
       "expectedStatus": 400
     },
     {
       "name": "Нет user_id — ошибка 400",
       "method": "POST",
       "path": "/",
-      "body": "{\"lang\": \"en\", \"plan\": \"business_monthly\"}",
+      "body": "{\"lang\": \"en\", \"plan\": \"organizer_month\"}",
       "expectedStatus": 400
     }
   ]
