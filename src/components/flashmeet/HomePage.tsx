@@ -1,5 +1,5 @@
 import Icon from "@/components/ui/icon";
-import { type Page, NAV_LINKS, hexToRgb } from "./types";
+import { type Page, NAV_LINKS } from "./types";
 
 export default function HomePage({ onDoc }: { onDoc: (id: Page) => void }) {
   return (
@@ -26,9 +26,7 @@ export default function HomePage({ onDoc }: { onDoc: (id: Page) => void }) {
 
         {/* Subline */}
         <p className="animate-fade-in-up delay-200 text-[#5a7080] text-base md:text-lg max-w-xl leading-relaxed mb-3">
-          Встречайтесь с незнакомцами безопасно.
-          <br />
-          Фоновый GPS, SOS-протокол и умный мэтчинг — в одном Telegram-боте.
+          Быстрые встречи, без нудной переписки — здесь и сейчас.
         </p>
 
         <p className="animate-fade-in-up delay-300 font-mono text-xs text-[#2e4a58] tracking-widest mb-10">
@@ -67,68 +65,6 @@ export default function HomePage({ onDoc }: { onDoc: (id: Page) => void }) {
             <div key={s.label} className="text-center">
               <div className="font-oswald text-2xl md:text-3xl font-semibold neon-text">{s.val}</div>
               <div className="font-mono text-[10px] text-[#2e4a58] tracking-widest mt-1 uppercase">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="relative z-10 max-w-6xl mx-auto px-4 pb-24">
-        <div className="text-center mb-12">
-          <p className="font-mono text-xs text-[#2e4a58] tracking-widest uppercase mb-2">Система безопасности</p>
-          <h2 className="font-oswald text-3xl md:text-4xl font-semibold text-white tracking-wide">
-            Протоколы защиты
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            {
-              icon: "MapPin",
-              color: "var(--neon)",
-              title: "Фоновый GPS",
-              desc: "Координаты скрыты от собеседника. Бот пишет точку раз в 2–3 минуты незаметно для всех.",
-            },
-            {
-              icon: "AlertTriangle",
-              color: "var(--sos)",
-              title: "SOS-протокол",
-              desc: "Нажми кнопку — сигнал уйдёт охране заведения и веерно ближайшим людям в радиусе 5 км.",
-            },
-            {
-              icon: "Shield",
-              color: "#6b9fff",
-              title: "Анти-ОПГ",
-              desc: "Из случайных резерв-людей автоматически исключаются участники и организатор встречи.",
-            },
-            {
-              icon: "Building2",
-              color: "var(--neon)",
-              title: "CRM для бизнеса",
-              desc: "Заведения и блогеры управляют командой, привязывают сотрудников и получают SOS-пакеты.",
-            },
-            {
-              icon: "Users",
-              color: "#b06bff",
-              title: "Три вкладки поиска",
-              desc: "Люди, Заведения и Мероприятия. Для массовых встреч — подтверждение участия за 30 минут.",
-            },
-            {
-              icon: "Clock",
-              color: "#ffd86b",
-              title: "Таймер «Всё ок»",
-              desc: "Автоматический контроль. Не ответил — запускается SOS. Можно отключить в режиме Чемпиона.",
-            },
-          ].map((f) => (
-            <div key={f.title} className="glow-card rounded-sm p-6">
-              <div
-                className="w-9 h-9 rounded-sm flex items-center justify-center mb-4"
-                style={{ background: `rgba(${hexToRgb(f.color)}, 0.12)` }}
-              >
-                <Icon name={f.icon} size={18} style={{ color: f.color }} />
-              </div>
-              <h3 className="font-oswald text-base font-medium text-white tracking-wide mb-2">{f.title}</h3>
-              <p className="text-[#5a7080] text-sm leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>

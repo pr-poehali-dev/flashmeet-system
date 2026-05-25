@@ -1,0 +1,53 @@
+{
+  "tests": [
+    {
+      "name": "Фильтр 1: блокировка ссылки у роли user",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"filter\":\"link_block\",\"user_id\":1001,\"role\":\"user\",\"text\":\"Приходи к нам https://bar.ru вечером\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Фильтр 1: разрешение для роли business",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"filter\":\"link_block\",\"user_id\":1002,\"role\":\"business\",\"text\":\"Наш сайт https://mycafe.ru\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Фильтр 2: стоп-слово скидка в категории people",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"filter\":\"stopword_check\",\"user_id\":1003,\"role\":\"user\",\"category\":\"people\",\"text\":\"Скидка 50 на коктейль\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Фильтр 2: чистый текст проходит",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"filter\":\"stopword_check\",\"user_id\":1004,\"role\":\"user\",\"category\":\"people\",\"text\":\"Хочу познакомиться с людьми\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Фильтр 3: кафе в имени блокируется",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"filter\":\"name_check\",\"user_id\":1005,\"name\":\"Кафе Ромашка\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Фильтр 3: обычное имя проходит",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"filter\":\"name_check\",\"user_id\":1006,\"name\":\"Алексей\"}",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Фильтр 4: запись GPS-точки",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"filter\":\"gps_farm\",\"user_id\":1007,\"role\":\"user\",\"lat\":55.7512,\"lon\":37.6184}",
+      "expectedStatus": 200
+    }
+  ]
+}
