@@ -11,6 +11,44 @@ const MEET_TAGS = [
   { emoji: "🎒", label: "Экскурсия" },
 ];
 
+const MATCH_FLOW = [
+  {
+    step: "01",
+    emoji: "🃏",
+    color: "var(--neon)",
+    title: "Видишь карточку",
+    desc: "В ленте — фото, описание и дистанция. Понравилось? Жми «Погнали! 🍷».",
+  },
+  {
+    step: "02",
+    emoji: "🔔",
+    color: "#6b9fff",
+    title: "Автор получает запрос",
+    desc: "Создателю встречи приходит пуш: «✅ Да, супер!» или «❌ Не сейчас». Без лишних слов.",
+  },
+  {
+    step: "03",
+    emoji: "🛡️",
+    color: "#b06bff",
+    title: "Шаг безопасности",
+    desc: "После «✅ Да, супер!» оба участника указывают @username доверенного хранителя — до обмена контактами.",
+  },
+  {
+    step: "04",
+    emoji: "📍",
+    color: "#ffd86b",
+    title: "GPS-защита включается",
+    desc: "Бот активирует Live Location. Таймер «Со мной всё ок» тикает. В любой момент — кнопка 🚨 SOS.",
+  },
+  {
+    step: "05",
+    emoji: "🤝",
+    color: "var(--neon)",
+    title: "Контакты выданы",
+    desc: "Оба получают Telegram-username друг друга. Встреча начинается — удачи!",
+  },
+];
+
 const SOS_STEPS = [
   {
     icon: "Heart",
@@ -125,6 +163,55 @@ export default function HomePage({ onDoc }: { onDoc: (id: Page) => void }) {
                 </span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Match Flow */}
+      <section className="relative z-10 py-20 px-4 border-t border-[var(--grid-line)]">
+        <div className="max-w-4xl mx-auto">
+          <p className="font-mono text-[10px] text-[var(--neon)] tracking-widest uppercase mb-3 text-center">
+            Как это работает
+          </p>
+          <h2 className="font-oswald text-2xl md:text-3xl font-semibold text-white tracking-wide text-center mb-12">
+            От карточки до встречи — 5 шагов
+          </h2>
+
+          {/* Timeline */}
+          <div className="relative">
+            {/* Vertical line */}
+            <div className="absolute left-5 top-0 bottom-0 w-px bg-[var(--grid-line)] hidden sm:block" />
+
+            <div className="flex flex-col gap-6">
+              {MATCH_FLOW.map((item, i) => (
+                <div key={item.step} className="flex items-start gap-4 sm:gap-6 relative">
+                  {/* Step bubble */}
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 z-10 text-lg"
+                    style={{
+                      background: "var(--surface-2)",
+                      border: `1px solid ${item.color}55`,
+                      boxShadow: `0 0 12px ${item.color}22`,
+                    }}
+                  >
+                    {item.emoji}
+                  </div>
+                  {/* Content */}
+                  <div
+                    className="flex-1 glow-card rounded-sm p-5"
+                    style={{ borderLeft: `2px solid ${item.color}44` }}
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="font-mono text-[10px] tracking-widest" style={{ color: item.color }}>
+                        ШАГ {item.step}
+                      </span>
+                    </div>
+                    <p className="text-sm font-medium text-white mb-1">{item.title}</p>
+                    <p className="text-xs text-[#3a5060] leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

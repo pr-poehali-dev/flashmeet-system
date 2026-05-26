@@ -173,19 +173,19 @@ def handler(event: dict, context) -> dict:
                 parsed = json.loads(raw)
                 body = json.loads(parsed) if isinstance(parsed, str) else parsed
             except Exception:
-                return {"statusCode": 400, "headers": cors, "body": {"error": "invalid json"}}
+                return {"statusCode": 400, "headers": cors, "body": json.dumps({"error": "invalid json"})}
 
         user_id = int(body.get("user_id", 0))
         lang = body.get("lang", "ru")
         if not user_id:
-            return {"statusCode": 400, "headers": cors, "body": {"error": "user_id required"}}
+            return {"statusCode": 400, "headers": cors, "body": json.dumps({"error": "user_id required"})}
         if lang not in TRANSLATIONS:
             lang = "ru"
         set_user_lang(user_id, lang)
         return {
             "statusCode": 200,
             "headers": cors,
-            "body": {"ok": True, "lang": lang, "strings": TRANSLATIONS[lang]},
+            "body": json.dumps({"ok": True, "lang": lang, "strings": TRANSLATIONS[lang]}),
         }
 
     # GET
@@ -200,5 +200,5 @@ def handler(event: dict, context) -> dict:
     return {
         "statusCode": 200,
         "headers": cors,
-        "body": {"lang": lang, "strings": TRANSLATIONS[lang]},
+        "body": json.dumps({"lang": lang, "strings": TRANSLATIONS[lang]}),
     }

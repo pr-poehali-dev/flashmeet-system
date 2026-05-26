@@ -28,7 +28,6 @@ def check_auth(event: dict) -> bool:
     provided = (
         headers.get("X-Admin-Token")
         or headers.get("x-admin-token")
-        or (event.get("queryStringParameters") or {}).get("token", "")
     )
     return provided == token
 
@@ -48,7 +47,7 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 200, "headers": cors, "body": ""}
 
     if not check_auth(event):
-        return {"statusCode": 401, "headers": cors, "body": {"error": "unauthorized"}}
+        return {"statusCode": 401, "headers": cors, "body": json.dumps({"error": "unauthorized"})}
 
     method = event.get("httpMethod", "GET")
     params = event.get("queryStringParameters") or {}
@@ -90,7 +89,7 @@ def handler(event: dict, context) -> dict:
             }
             for r in rows
         ]
-        return {"statusCode": 200, "headers": cors, "body": {"suspects": suspects, "count": len(suspects)}}
+        return {"statusCode": 200, "headers": cors, "body": json.dumps({"suspects": suspects, "count": len(suspects)})}
 
     if method == "POST":
         raw = event.get("body") or "{}"
@@ -101,14 +100,14 @@ def handler(event: dict, context) -> dict:
                 parsed = json.loads(raw)
                 body = json.loads(parsed) if isinstance(parsed, str) else parsed
             except Exception:
-                return {"statusCode": 400, "headers": cors, "body": {"error": "invalid json"}}
+                return {"statusCode": 400, "headers": cors, "body": json.dumps({"error": "invalid json"})}
 
         record_id = int(body.get("id", 0))
         action = body.get("action", "dismiss")
         note = body.get("note", "")
 
         if not record_id:
-            return {"statusCode": 400, "headers": cors, "body": {"error": "id required"}}
+            return {"statusCode": 400, "headers": cors, "body": json.dumps({"error": "id required"})}
 
         with get_conn() as conn:
             with conn.cursor() as cur:
@@ -125,8 +124,8 @@ def handler(event: dict, context) -> dict:
             conn.commit()
 
         if updated == 0:
-            return {"statusCode": 404, "headers": cors, "body": {"error": "record not found"}}
+            return {"statusCode": 404, "headers": cors, "body": json.dumps({"error": "record not found"})}
 
-        return {"statusCode": 200, "headers": cors, "body": {"ok": True, "id": record_id, "action": action}}
+        return {"statusCode": 200, "headers": cors, "body": json.dumps({"ok": True, "id": record_id, "action": action})}
 
-    return {"statusCode": 405, "headers": cors, "body": {"error": "method not allowed"}}
+    return {"statusCode": 405, "headers": cors, "body": json.dumps({"error": "method not allowed"})}

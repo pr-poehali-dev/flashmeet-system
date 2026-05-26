@@ -115,12 +115,14 @@ def filter_gps_farm(user_id: int, lat: float, lon: float) -> dict:
     """Фильтр 4: запись GPS-точки и детекция ферм фейков."""
     with get_conn() as conn:
         with conn.cursor() as cur:
-            # Сохраняем точку
+            # Сохраняем точку и сразу коммитим, чтобы SELECT видел новую запись
             cur.execute(
                 f"INSERT INTO {SCHEMA}.gps_logs (user_id, lat, lon) VALUES (%s, %s, %s)",
                 (user_id, lat, lon),
             )
+        conn.commit()
 
+        with conn.cursor() as cur:
             # Ищем аккаунты, публиковавшие из той же зоны за последние GPS_WINDOW_HOURS часов
             cur.execute(
                 f"""
@@ -135,21 +137,23 @@ def filter_gps_farm(user_id: int, lat: float, lon: float) -> dict:
             )
             nearby_raw = [row[0] for row in cur.fetchall()]
 
-            # Уточняем по реальному расстоянию
-            cur.execute(
-                f"""
-                SELECT user_id, lat, lon FROM {SCHEMA}.gps_logs
-                WHERE user_id = ANY(%s)
-                """,
-                (nearby_raw,),
-            )
             nearby_confirmed = set()
-            for row in cur.fetchall():
-                if _haversine_m(lat, lon, row[1], row[2]) <= GPS_RADIUS_METERS:
-                    nearby_confirmed.add(row[0])
+            if nearby_raw:
+                # Уточняем по реальному расстоянию через IN-список (без ANY(%s) для массива)
+                placeholders = ",".join(["%s"] * len(nearby_raw))
+                cur.execute(
+                    f"SELECT DISTINCT ON (user_id) user_id, lat, lon FROM {SCHEMA}.gps_logs"
+                    f" WHERE user_id IN ({placeholders})"
+                    f" ORDER BY user_id, recorded_at DESC",
+                    nearby_raw,
+                )
+                for row in cur.fetchall():
+                    if _haversine_m(lat, lon, row[1], row[2]) <= GPS_RADIUS_METERS:
+                        nearby_confirmed.add(row[0])
 
             suspect_ids = list(nearby_confirmed)
-            farm_detected = len(suspect_ids) >= GPS_MIN_ACCOUNTS - 1
+            # farm_detected если ИТОГО аккаунтов (включая текущего) >= GPS_MIN_ACCOUNTS
+            farm_detected = (len(suspect_ids) + 1) >= GPS_MIN_ACCOUNTS
 
             if farm_detected:
                 all_ids = [user_id] + suspect_ids
@@ -233,10 +237,10 @@ def handler(event: dict, context) -> dict:
             # двойная сериализация: если результат — строка, парсим ещё раз
             body = json.loads(parsed) if isinstance(parsed, str) else parsed
         except (json.JSONDecodeError, TypeError):
-            return {"statusCode": 400, "headers": cors, "body": {"error": "invalid json"}}
+            return {"statusCode": 400, "headers": cors, "body": json.dumps({"error": "invalid json"})}
     # финальная защита
     if not isinstance(body, dict):
-        return {"statusCode": 400, "headers": cors, "body": {"error": "body must be a json object"}}
+        return {"statusCode": 400, "headers": cors, "body": json.dumps({"error": "body must be a json object"})}
 
     filter_name = body.get("filter")
     user_id = int(body.get("user_id", 0))
@@ -246,7 +250,7 @@ def handler(event: dict, context) -> dict:
         return {
             "statusCode": 400,
             "headers": cors,
-            "body": {"error": "filter and user_id are required"},
+            "body": json.dumps({"error": "filter and user_id are required"}),
         }
 
     if filter_name == "link_block":
@@ -265,7 +269,7 @@ def handler(event: dict, context) -> dict:
             return {
                 "statusCode": 400,
                 "headers": cors,
-                "body": {"error": "lat and lon required for gps_farm"},
+                "body": json.dumps({"error": "lat and lon required for gps_farm"}),
             }
         result = filter_gps_farm(user_id, float(lat), float(lon))
 
@@ -273,7 +277,7 @@ def handler(event: dict, context) -> dict:
         return {
             "statusCode": 400,
             "headers": cors,
-            "body": {"error": f"unknown filter: {filter_name}"},
+            "body": json.dumps({"error": f"unknown filter: {filter_name}"}),
         }
 
-    return {"statusCode": 200, "headers": cors, "body": result}
+    return {"statusCode": 200, "headers": cors, "body": json.dumps(result)}
